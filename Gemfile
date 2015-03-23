@@ -8,6 +8,7 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'haml'
+gem 'nokogiri'
 
 group :development, :test do
   gem 'pry-byebug'
@@ -17,5 +18,6 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'mocha'
 end
 
