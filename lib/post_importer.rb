@@ -28,10 +28,6 @@ class PostImporter < Nokogiri::XML::SAX::Document
     logger.debug "start_document"
   end
 
-  def end_document
-    logger.debug "end_document"
-  end
-
   def characters(c)
     logger.debug c.strip.chomp if c
   end
@@ -64,18 +60,20 @@ class PostImporter < Nokogiri::XML::SAX::Document
   end
 
   def end_element(name)
-    if name == "posts"
+    handle_end_element(name)
+    if name == "row"
       @post_count += 1
       sql_statement = "INSERT INTO posts (id, parent_id, created_at, updated_at, title, body, accepted_answer_id, score, view_count, answer_count) VALUES (#{@last_post[:id]}, #{@last_post[:parent_id]}, '#{@last_post[:created_at]}', '#{@last_post[:updated_at]}', '#{@last_post[:title]}', '#{@last_post[:body]}', #{@last_post[:accepted_answer_id]}, #{@last_post[:score]}, #{@last_post[:view_count]}, #{@last_post[:answer_count]});"
-      sql_file = File.open(output_file_name(@post_count), "w+")
-      sql_file.write(clean(sql_statement) + "\n")
-      sql_file.close
+      @sql_file = File.open(output_file_name(@post_count), "w+")
+      @sql_file.write(clean(sql_statement) + "\n")
     end
-    handle_end_element(name)
     logger.debug 'end_element("#{name}")'
   end
 
-
+  def end_document
+    @sql_file.close
+    logger.debug "end_document"
+  end
 
   protected
   # Remove any unwanted whitespace and escape single quotes for use in PSQL
