@@ -43,9 +43,9 @@ class PostImporter < Nokogiri::XML::SAX::Document
       elsif k == "ViewCount"
 	@last_post[:view_count] = v.to_i
       elsif k == "Body"
-	@last_post[:body] = v
+	@last_post[:body] = clean(v)
       elsif k == "Title"
-	@last_post[:title] = v
+	@last_post[:title] = clean(v)
       elsif k == "AnswerCount"
 	@last_post[:answer_count] = v.to_i
       elsif k == "Tags"
@@ -64,8 +64,8 @@ class PostImporter < Nokogiri::XML::SAX::Document
     if name == "row"
       @post_count += 1
       sql_statement = "INSERT INTO posts (id, parent_id, created_at, updated_at, title, body, accepted_answer_id, score, view_count, answer_count) VALUES (#{@last_post[:id]}, #{@last_post[:parent_id]}, '#{@last_post[:created_at]}', '#{@last_post[:updated_at]}', '#{@last_post[:title]}', '#{@last_post[:body]}', #{@last_post[:accepted_answer_id]}, #{@last_post[:score]}, #{@last_post[:view_count]}, #{@last_post[:answer_count]});"
-      @sql_file = File.open(output_file_name(@post_count), "w+")
-      @sql_file.write(clean(sql_statement) + "\n")
+      @sql_file = File.open(output_file_name(@post_count), "a+")
+      @sql_file.write(sql_statement + "\n")
     end
     logger.debug 'end_element("#{name}")'
   end
@@ -79,7 +79,7 @@ class PostImporter < Nokogiri::XML::SAX::Document
   # Remove any unwanted whitespace and escape single quotes for use in PSQL
   
     def clean(s)
-      s.strip.gsub("'", "\'")
+      s.strip.gsub("'", "\''").gsub(/^\R/, "\ ") unless s.nil?
     end
 
     def handle_end_element(s)

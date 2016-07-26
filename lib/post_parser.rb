@@ -20,3 +20,9 @@ rescue Exception => e
 end
 
 puts "Found #{document.post_count} posts"
+
+Dir["./tmp"].each do |file|
+#  ActiveRecord::Base.execute File.open(file, "r")
+  exec("psql -d InformationMine_development -a -f #{file}")
+end
+

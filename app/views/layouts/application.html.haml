@@ -1,24 +1,24 @@
 !!! 5
 %html{lang: 'en'}
-%head
-  %title Information Mine
-  = stylesheet_link_tag    'application', media: 'all'
-  = javascript_include_tag 'application'
-  = csrf_meta_tags
+  %head
+    %title Information Mine
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
 
-%body
-	.flash
-		.notice
-			= notice
+  %body
+    .flash
+      .notice
+        = notice
     .alert
-    	= alert
+      = alert
 
-	%nav
-		%h1 Information Mine
-		
-		= yield :nav
-	
-	%main#content
-		= yield
+      %nav
+        %h1 Information Mine
+        
+        = yield :nav
+      
+      %main#content
+        = yield
 
-	%footer
+      %footer
