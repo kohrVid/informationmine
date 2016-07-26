@@ -12,10 +12,11 @@ parser = Nokogiri::XML::SAX::Parser.new(document)
 
 begin
   parser.parse(File.open(ARGV[0]))
+
 rescue Exception => e
+
   logger.error "Problem saving file: #{e.message}"
   logger.error e.backtrace
-  # document.close_file
 end
 
 puts "Found #{document.post_count} posts"

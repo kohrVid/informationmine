@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'rails_helper'
 require 'post_importer'
 require 'logger'
 
@@ -24,7 +25,7 @@ describe PostImporter do
       @document.expects(:start_document).once
       @document.expects(:start_element_namespace).times(2)
       @document.expects(:characters).twice
-      @document.expects(:handle_end_element).once
+      @document.expects(:handle_end_element).twice
       @document.expects(:end_document).once
 
       @parser = Nokogiri::XML::SAX::Parser.new(@document)
@@ -57,15 +58,23 @@ describe PostImporter do
     end
 
     it "creates an SQL file ready to import the article" do
-      sql_file = '/tmp/posts-0.sql'
+      sql_file = './tmp/posts-0.sql'
       expect(File.exist?(sql_file)).to be true
 
       sql = File.read(sql_file)
-      expect(sql).to eq("INSERT INTO posts (id, parent_id, created_at, updated_at, title, body, accepted_answer_id, score, view_count, answer_count) VALUES (1, NULL, '2010-09-01T19:34:48', CURRENT_TIMESTAMP, '\"Comments are a code smell\"', '#{@document.last_post[:body]}', 13, 101, 12414, 35);\n")
+      #"CURRENT_TIMESTAMP" doesn't appear in the dataset so I've changed the spec
+      #expect(sql).to eq("INSERT INTO posts (id, parent_id, created_at, updated_at, title, body, accepted_answer_id, score, view_count, answer_count) VALUES (1, NULL, '2010-09-01T19:34:48', CURRENT_TIMESTAMP, '\"Comments are a code smell\"', '#{@document.last_post[:body]}', 13, 101, 12414, 35);\n")
+      expect(sql).to eq("INSERT INTO posts (id, parent_id, created_at, updated_at, title, body, accepted_answer_id, score, view_count, answer_count) VALUES (1, NULL, '2010-09-01T19:34:48', '2011-11-25T22:32:41', '\"Comments are a code smell\"', '#{@document.last_post[:body]}', 13, 101, 12414, 35);\n")
 
+  ActiveRecord::Base.establish_connection(
+        adapter:  'postgresql',
+        database: 'InformationMine_test',
+        encoding: 'unicode',
+        pool:     5
+  )
       # Try it!
       Post.connection.execute(sql)
-      Post.count.should eq(1)
+      expect(Post.count).to eq(1)
     end
   end
 
