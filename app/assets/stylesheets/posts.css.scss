@@ -1,56 +1,56 @@
 .post {
-	border: 1px solid #999;
-	padding: 1em;
-	margin-bottom: 1em;
-	background: rgb(237,237,237); /* Old browsers */
-	background: -moz-linear-gradient(top,  rgba(237,237,237,1) 0%, rgba(255,255,255,1) 7%, rgba(255,255,255,1) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(237,237,237,1)), color-stop(7%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  rgba(237,237,237,1) 0%,rgba(255,255,255,1) 7%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  rgba(237,237,237,1) 0%,rgba(255,255,255,1) 7%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  rgba(237,237,237,1) 0%,rgba(255,255,255,1) 7%,rgba(255,255,255,1) 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  rgba(237,237,237,1) 0%,rgba(255,255,255,1) 7%,rgba(255,255,255,1) 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
-	box-shadow: 2px 2px 20px #333;
+  border: 1px solid #999;
+  padding: 1em;
+  margin-bottom: 1em;
+  background: rgb(237,237,237); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(237,237,237,1) 0%, rgba(255,255,255,1) 7%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(237,237,237,1)), color-stop(7%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(237,237,237,1) 0%,rgba(255,255,255,1) 7%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(237,237,237,1) 0%,rgba(255,255,255,1) 7%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(237,237,237,1) 0%,rgba(255,255,255,1) 7%,rgba(255,255,255,1) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(237,237,237,1) 0%,rgba(255,255,255,1) 7%,rgba(255,255,255,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+  box-shadow: 2px 2px 20px #333;
 }
 
 .post h3 {
-	font-size: 2em;
-	margin-top: 0.2em;
-	margin-bottom: 0.5em;
+  font-size: 2em;
+  margin-top: 0.2em;
+  margin-bottom: 0.5em;
 }
 
 .post .post-nav {
-	border-top: 1px dashed #CCC;
-	margin-top: 0.5em;
-	padding-top: 0.5em;
+  border-top: 1px dashed #CCC;
+  margin-top: 0.5em;
+  padding-top: 0.5em;
 }
 
 .post pre {
-	margin: 0.6em 0 0.6em 0;
-	border: 1px solid #333;
-	background: #FAFFE7;
-	padding: .8em;
-	font-family: courier;
+  margin: 0.6em 0 0.6em 0;
+  border: 1px solid #333;
+  background: #FAFFE7;
+  padding: .8em;
+  font-family: courier;
 }
 
 .post p {
-	margin: 0.6em 0 0.6em 0;
+  margin: 0.6em 0 0.6em 0;
 }
 
 .post .score {
-	float: right;
-	font-size: 1.4em;
-	background: #E7FF01;
-	border-radius: 2em;
-	width: 2em;
-	text-align: center;
-	height: 2em;
-	border: 2px solid #FF4C30;	
+  float: right;
+  font-size: 1.4em;
+  background: #E7FF01;
+  border-radius: 2em;
+  width: 2em;
+  text-align: center;
+  height: 2em;
+  border: 2px solid #FF4C30;	
 }
 
 .post .score span {
-	padding-top: 0.5em;
-	display: block;
-	padding-top: 0.5em;
-	height: 2em;
+  padding-top: 0.5em;
+  display: block;
+  padding-top: 0.5em;
+  height: 2em;
 }

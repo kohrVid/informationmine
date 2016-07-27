@@ -1,0 +1,8 @@
+%li
+  %article.post
+    %header
+      %h3= post.title
+    %p
+      = post.body.html_safe
+    %footer
+      = post.created_at
