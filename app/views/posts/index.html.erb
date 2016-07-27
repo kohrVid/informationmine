@@ -1,8 +1,12 @@
-<% @posts.each do |post| %>
-  <%= post.title %>
-  <%= post.body.html_safe %>
-  <hr>
-<% end %>
+<ul>
+  <% @posts.each do |post| %>
+    <li>
+      <%= post.title %>
+      <%= post.body.html_safe %>
+      <hr>
+    </li>
+  <% end %>
+</ul>
 
 <% unless @previous_page.zero? %>
   <%= link_to "Previous", posts_path(page_size: @page_size, page: @previous_page) %>
