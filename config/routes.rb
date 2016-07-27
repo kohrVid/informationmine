@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :posts do
     collection do
       get "/posts?page_size=[:page_size]&offset=[:page]" => "posts#index"
+      get :search
     end
   end
 

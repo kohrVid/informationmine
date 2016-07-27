@@ -15,8 +15,12 @@
 
       %nav
         %h1 Information Mine
-        
         = yield :nav
+        .search-box
+          = form_tag search_posts_path, method: :get do
+            %fieldset
+              = text_field_tag "search_term", nil, placeholder: "Please enter a search term..."
+              = submit_tag "Search"
       
       %main#content
         = yield

@@ -1,0 +1,20 @@
+<h2>Search Results for <%= @search_term %></h2>
+<% unless @suggestion.nil? %>
+  Did you mean <%= link_to @suggestion, search_posts_path(search_term: @suggestion) %>?
+<% end %>
+<div class="result-count">
+  Found <span class="result-count"><%= @total_results %></span> results.
+</div>
+
+<div class="search-results">
+  <%= render @posts %>
+</div>
+<% unless @previous_page.zero? %>
+  <%= link_to "Previous", search_posts_path(search_term: @search_term,
+					    per_page: @page_size, page: @previous_page) %>
+<% end %>
+<% unless Post.no_next_search(@search_term, @next_page, @page_size) %>
+  <%= link_to "Next", search_posts_path(search_term: @search_term, 
+					per_page: @page_size, page: @next_page) %>
+<% end %>
+
