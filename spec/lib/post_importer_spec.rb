@@ -62,8 +62,6 @@ describe PostImporter do
       expect(File.exist?(sql_file)).to be true
 
       sql = File.read(sql_file)
-      #"CURRENT_TIMESTAMP" doesn't appear in the dataset so I've changed the spec
-      #expect(sql).to eq("INSERT INTO posts (id, parent_id, created_at, updated_at, title, body, accepted_answer_id, score, view_count, answer_count) VALUES (1, NULL, '2010-09-01T19:34:48', CURRENT_TIMESTAMP, '\"Comments are a code smell\"', '#{@document.last_post[:body]}', 13, 101, 12414, 35);\n")
       expect(sql).to eq("INSERT INTO posts (id, parent_id, created_at, updated_at, title, body, accepted_answer_id, score, view_count, answer_count) VALUES (1, NULL, '2010-09-01T19:34:48', '2011-11-25T22:32:41', '\"Comments are a code smell\"', '#{@document.last_post[:body]}', 13, 101, 12414, 35);\n")
 
   ActiveRecord::Base.establish_connection(

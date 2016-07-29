@@ -2,7 +2,12 @@
   %article.post
     %header
       %h3= post.title
-    %p
-      = post.body.html_safe
+
+    = link_to "Read more", post_path(post)
+
     %footer
-      = post.created_at
+      %dl.inline
+        %dt Created At
+        %dd= post.created_at
+        %dt Tags
+        %dd= post.tags.map(&:name).split(" ")

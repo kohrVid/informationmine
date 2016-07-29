@@ -36,18 +36,20 @@ class PostImporter < Nokogiri::XML::SAX::Document
     attrs.each do |k, v|
       if k == "Id"
 	@last_post[:id] = v.to_i
+      elsif k == "ParentId"
+	@last_post[:parent_id] = v == "NULL" ? "NULL" : v.to_i
       elsif k == "AcceptedAnswerId"
-	@last_post[:accepted_answer_id] = v.to_i
+	@last_post[:accepted_answer_id] = v == "NULL" ? "NULL" : v.to_i
       elsif k == "Score"
-	@last_post[:score] = v.to_i
+	@last_post[:score] = v == "NULL" ? "NULL" : v.to_i
       elsif k == "ViewCount"
-	@last_post[:view_count] = v.to_i
+	@last_post[:view_count] = v == "NULL" ? "NULL" : v.to_i
       elsif k == "Body"
 	@last_post[:body] = clean(v)
       elsif k == "Title"
 	@last_post[:title] = clean(v)
       elsif k == "AnswerCount"
-	@last_post[:answer_count] = v.to_i
+	@last_post[:answer_count] = v == "NULL" ? "NULL" : v.to_i
       elsif k == "Tags"
 	@last_post[:tags] = v.gsub("><", " ").gsub(/<|>/, "").split(" ")
       elsif k == "CreationDate"
@@ -63,7 +65,26 @@ class PostImporter < Nokogiri::XML::SAX::Document
     handle_end_element(name)
     if name == "row"
       @post_count += 1
-      sql_statement = "INSERT INTO posts (id, parent_id, created_at, updated_at, title, body, accepted_answer_id, score, view_count, answer_count) VALUES (#{@last_post[:id]}, #{@last_post[:parent_id]}, '#{@last_post[:created_at]}', '#{@last_post[:updated_at]}', '#{@last_post[:title]}', '#{@last_post[:body]}', #{@last_post[:accepted_answer_id]}, #{@last_post[:score]}, #{@last_post[:view_count]}, #{@last_post[:answer_count]});"
+      sql_statement = "INSERT INTO posts 
+	(id, parent_id, created_at, updated_at, title, body, accepted_answer_id, score, view_count, answer_count)
+      VALUES (#{@last_post[:id]}, #{@last_post[:parent_id]}, '#{@last_post[:created_at]}', '#{@last_post[:updated_at]}', '#{@last_post[:title]}', '#{@last_post[:body]}', #{@last_post[:accepted_answer_id]}, #{@last_post[:score]}, #{@last_post[:view_count]}, #{@last_post[:answer_count]});\n"
+      @last_post[:tags].each do |tag|
+	if Tag.find_by(name: tag).nil?
+	  sql_statement << "INSERT INTO tags (name, created_at, updated_at)
+	  SELECT '#{tag}', '#{@last_post[:created_at]}', '#{@last_post[:updated_at]}'
+	  WHERE NOT EXISTS (
+	    SELECT name
+	      FROM tags 
+	      WHERE name = '#{tag}' AND created_at = '#{@last_post[:created_at]}'
+		AND updated_at = '#{@last_post[:updated_at]}'
+	  );\n
+	  INSERT INTO post_tags (post_id, tag_id, created_at, updated_at) 
+	  VALUES (#{@last_post[:id]}, 
+	    (SELECT id 
+	      FROM tags
+	      WHERE name = '#{tag}'), '#{@last_post[:created_at]}', '#{@last_post[:updated_at]}');\n"
+	end
+      end
       @sql_file = File.open(output_file_name(@post_count), "a+")
       @sql_file.write(sql_statement + "\n")
     end

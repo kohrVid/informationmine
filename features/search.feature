@@ -17,7 +17,7 @@ Feature: Searching Posts
     Then they see a post entitled "Ruby"
     And there should be 1 result.
 
-  @wip @sphinx
+  @sphinx
   Scenario: a geek searched for a post with a spelling error
     When they search for "Tuby"
     Then they should see an alternative search suggestion for "Ruby"
@@ -25,4 +25,9 @@ Feature: Searching Posts
     Then they see a post entitled "Ruby"
     And there should be 1 result.
 
+  @sphinx
+  Scenario: A geek searches for a plural
+    When they search for "Rubies"
+    Then they see a post entitled "Ruby"
+      And there should be 1 result.
 

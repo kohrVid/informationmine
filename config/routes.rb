@@ -7,6 +7,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :tags, only: [:show] do
+    resources :posts, only: [:index]
+    scope "/questions" do
+      resources :posts, only: [:index]
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

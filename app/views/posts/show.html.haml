@@ -1,0 +1,16 @@
+%article.post
+  %header
+    %h3= @post.title
+
+  %p= @post.body.html_safe
+
+  %footer
+    %dl.inline
+      %dt Created At
+      %dd= @post.created_at
+      %dt Tags
+      %dd= @post.tags.map(&:name)
+
+%ol.answers
+  - @post.answers.each do |answer|
+    = render partial: "posts/answer", locals: { answer: answer }

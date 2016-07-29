@@ -1,0 +1,14 @@
+%li
+  %article.post
+    %header
+      %h3= answer.title
+
+    %p= answer.body.html_safe
+    = link_to "Read more", post_path(answer)
+
+    %footer
+      %dl.inline
+        %dt Created At
+        %dd= answer.created_at
+        %dt Tags
+        %dd= answer.tags.map(&:name)

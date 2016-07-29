@@ -1,7 +1,10 @@
 %ul
   = render @posts
+%ul#tag-cloud
+  - @tags.each do |tag|
+    %li= link_to tag.name, tag_path(tag)
 
 - unless @previous_page.zero?
   = link_to "Previous", posts_path(page_size: @page_size, page: @previous_page)
-- unless Post.no_next(@next_page, @page_size)
+- unless Post.includes(:tags).no_next(@next_page, @page_size)
   = link_to "Next", posts_path(page_size: @page_size, page: @next_page)

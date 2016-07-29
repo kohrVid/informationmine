@@ -1,15 +1,21 @@
+require "./lib/search.rb"
 class PostsController < ApplicationController
   before_action :paginate_variables
 
   def index
-    @posts = Post.pages(@page_number, @page_size)
+    @posts = Post.includes(:tags).paginated(@page_number, @page_size)
+    @tags = Tag.all
   end
 
   def search
     @search_term = params[:search_term]
     @posts = Post.search_results(@search_term, @page_number, @page_size)
     @total_results = @posts.meta["total"].to_i
-    @suggestion = make_suggestion(@search_term, @total_results)
+    @suggestion = Search.make_suggestion(@search_term, @total_results)
+  end
+
+  def show
+    @post = Post.includes(:tags).find(params[:id])
   end
 
 

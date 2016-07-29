@@ -3,7 +3,8 @@ Given(/^there are some interesting posts$/) do
 end
 
 Given(/^there is a post entitled "(.*?)"$/) do |title|
-  Post.create!(title: title, body: Faker::Lorem.paragraph)
+  question = Post.create!(title: title, body: Faker::Lorem.paragraph)
+  answer = Post.create!(body: Faker::Lorem.paragraph, parent_id: question.id)
 end
 
 Given(/^the sphinx index has been updated$/) do

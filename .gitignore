@@ -13,3 +13,5 @@
 /tmp
 data/
 config/database.yml
+db/sphinx
+coverage

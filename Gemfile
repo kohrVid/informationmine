@@ -23,5 +23,6 @@ group :development, :test do
   gem 'spring'
   gem 'mocha'
   gem 'faker'
+  gem 'simplecov'
 end
 
