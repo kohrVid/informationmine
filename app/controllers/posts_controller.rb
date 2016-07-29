@@ -1,6 +1,6 @@
 require "./lib/search.rb"
 class PostsController < ApplicationController
-  before_action :paginate_variables
+  before_action :paginate_variables, except: [:show, :create]
 
   def index
     @posts = Post.includes(:tags).paginated(@page_number, @page_size)
@@ -18,6 +18,15 @@ class PostsController < ApplicationController
     @post = Post.includes(:tags).find(params[:id])
   end
 
+  def create
+    @post = Post.create(post_params)
+    if @post.save
+      redirect_to post_path(id: @post.parent_id), notice: t("posts.created")
+    else
+      render :show
+    end
+  end
+
 
   private
 
@@ -26,6 +35,10 @@ class PostsController < ApplicationController
       @page_size = params[:page_size].nil? ? 20 : params[:page_size].to_i
       @next_page = @page_number + 1
       @previous_page = @page_number - 1
+    end
+
+    def post_params
+      params.require(:post).permit(:parent_id, :title, :body)
     end
   
 end

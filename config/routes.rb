@@ -8,9 +8,9 @@ Rails.application.routes.draw do
   end
 
   resources :tags, only: [:show] do
-    resources :posts, only: [:index]
+    resources :posts, only: [:index, :create]
     scope "/questions" do
-      resources :posts, only: [:index]
+      resources :posts, only: [:index, :create]
     end
   end
 
