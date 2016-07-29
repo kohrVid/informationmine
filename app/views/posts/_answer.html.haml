@@ -3,8 +3,7 @@
     %header
       %h3= answer.title
 
-    %p= answer.body.html_safe
-    = link_to "Read more", post_path(answer)
+    %p= answer.body.html_safe unless answer.body.nil?
 
     %footer
       %dl.inline

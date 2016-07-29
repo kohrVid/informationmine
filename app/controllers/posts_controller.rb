@@ -19,9 +19,12 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.create(post_params)
-    if @post.save
-      redirect_to post_path(id: @post.parent_id), notice: t("posts.created")
+    #@answer = Post.create(post_params, author: current_geek)
+    @answer = Post.new(post_params)
+    @answer.author = current_geek
+    @answer.save!
+    if @answer.save
+      redirect_to post_path(id: @answer.parent_id), notice: t("posts.created")
     else
       render :show
     end

@@ -3,8 +3,14 @@ Given(/^there are some interesting posts$/) do
 end
 
 Given(/^there is a post entitled "(.*?)"$/) do |title|
-  question = Post.create!(title: title, body: Faker::Lorem.paragraph)
-  answer = Post.create!(body: Faker::Lorem.paragraph, parent_id: question.id)
+  question = Post.new(title: title, body: Faker::Lorem.paragraph)
+  question.author = Geek.create!(email: Faker::Internet.email,
+				 name: Faker::Name.name)
+  question.save!
+  answer = Post.new(body: Faker::Lorem.paragraph, parent_id: question.id)
+  answer.author = Geek.create!(email: Faker::Internet.email,
+			       name: Faker::Name.name)
+  answer.save!
 end
 
 Given(/^the sphinx index has been updated$/) do
@@ -21,7 +27,6 @@ When(/^they search for "(.*?)"$/) do |search_term|
 end
 
 When(/^they search for that alternative$/) do
- # step "they search for \"Ruby\""
   click_on "Ruby"
 end
 

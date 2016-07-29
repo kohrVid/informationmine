@@ -1,6 +1,9 @@
 Given(/^there are some posts tagged "(.*?)"$/) do |arg1|
-  post = Post.create!(title: title, body: Faker::Lorem.paragraph)
+  post = Post.new(title: title, body: Faker::Lorem.paragraph)
+  post.author = Geek.create!(email: Faker::Internet.email,
+				 name: Faker::Name.name)
   post.tag = Tag.create!(name: "Ruby")
+  post.save!
 end
 
 When(/^she reads more about a question$/) do
@@ -36,7 +39,7 @@ Given(/^is signed in$/) do
   Rails.logger.warn "This isn't gonna work in development. Replace with real Devise code"
 class ApplicationController < ActionController::Base
     def current_geek
-      @geek
+      Geek.last
     end
     def geek_signed_in?
       true
@@ -59,5 +62,14 @@ Then(/^her question appears at the bottom of the list$/) do
 end
 
 Then(/^the questioner receives an email notification$/) do
-  expect(ActionMailer::Base.deliveries.length).to eq(1)
+  email = ActionMailer::Base.deliveries.last
+  expect(email.subject).to match(/#{@geek.name}/)
+  expect(email.subject).to match(/just answered your question/)
+  #expect(email.subject).to match(/#{@answer.question.title}/)
+  expect(email.subject).to match(/#{Post.questions.first.title}/)
+  expect(email.to).to include(Post.questions.first.author.email)
+  expect(email.from).to include("admin@information-mine.com")
+
+  expect(email.body.encoded).to match(/Hello #{@geek.name}/)
+  expect(email.body.encoded).to match(Regexp.new("<a href=\"http://test.host.information-mine.org/posts/1\">click here</a>"))
 end

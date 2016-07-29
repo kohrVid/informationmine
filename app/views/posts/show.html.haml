@@ -11,6 +11,18 @@
       %dt Tags
       %dd= @post.tags.map(&:name)
 
+.new-form
+  =form_for @post.answers.build do |f|
+    = f.hidden_field :parent_id, value: @post.id
+    %fieldset
+      = f.label :title
+      = f.text_field :title, value: @post.title
+    %fieldset
+      = f.label :body
+      = f.text_area :body
+    %fieldset
+      = f.submit "Submit Answer"
+
 %ol.answers
   - @post.answers.each do |answer|
     = render partial: "posts/answer", locals: { answer: answer }
